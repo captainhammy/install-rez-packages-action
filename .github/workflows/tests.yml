@@ -21,10 +21,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: pypy${{ matrix.python-version }}
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: pypy${{ matrix.python-version }}
 
       # Unit Tests
       - name: Install unit test dependencies
