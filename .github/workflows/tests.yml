@@ -1,0 +1,45 @@
+# Execute repository tests.
+name: Tests
+
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        houdini-version: ["20.0"]
+        include:
+          - houdini-version: "20.0"
+            python-version: "3.10"
+    container:
+      image: captainhammy/hython-runner:${{ matrix.houdini-version }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: pypy${{ matrix.python-version }}
+
+      # Unit Tests
+      - name: Install unit test dependencies
+        run: python${{ matrix.python-version }} -m pip install tox tox-gh-actions
+
+      - name: Test with tox
+        run: tox
+
+      # Integration tests
+      - name: Install integration test dependencies
+        uses: ./
+        with:
+          packages: "pytest-sugar,pytest-subprocess"
+          files: "tests/data/requirements.txt,tests/data/other.txt"
+
+      - name: Test resolve
+        run: rez env pytest_sugar pytest_subprocess pytest_asyncio pytest_ruff pytest_home
+        shell: bash

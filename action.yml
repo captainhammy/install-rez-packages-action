@@ -1,0 +1,29 @@
+name: "Install Rez Packages"
+description: "Install Rez Packages for the duration of the tests."
+branding:
+  icon: "arrow-up-right"
+  color: "orange"
+inputs:
+  packages:
+    description: "A comma seperated list of PyPI package names to install."
+    default: ""
+    required: false
+
+  files:
+    description: "A comma seperated list of requirements.txt files to install."
+    default: ""
+    required: false
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Install packages
+      if: ${{ inputs.packages }}
+      run: python3 ${GITHUB_ACTION_PATH}/install_rez_packages.py --packages ${{ inputs.packages }}
+      shell: bash
+
+    - name: Install files
+      if: ${{ inputs.files }}
+      run: python3 ${GITHUB_ACTION_PATH}/install_rez_packages.py --files ${{ inputs.files }}
+      shell: bash
