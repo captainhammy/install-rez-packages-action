@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      REZ_PACKAGES_PATH: /root/packages
     strategy:
       matrix:
         houdini-version: ["20.0"]
