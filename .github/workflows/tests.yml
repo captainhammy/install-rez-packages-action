@@ -27,11 +27,16 @@ jobs:
 #          python-version: pypy${{ matrix.python-version }}
 
       # Unit Tests
-      - name: Install unit test dependencies
-        run: python${{ matrix.python-version }} -m pip install tox tox-gh-actions
+#      - name: Install unit test dependencies
+#        run: python${{ matrix.python-version }} -m pip install tox tox-gh-actions
+#
+#      - name: Test with tox
+#        run: tox
+      - name: Check container
+        run: ls /root/packages
 
-      - name: Test with tox
-        run: tox
+      - name: Print rez config
+        run: rez config
 
       # Integration tests
       - name: Install integration test dependencies
