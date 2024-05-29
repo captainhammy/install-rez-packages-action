@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      REZ_PACKAGES_PATH: /root/packages
+      REZ_PACKAGES_PATH: /root/packages:/github/home/packages
     strategy:
       matrix:
         houdini-version: ["20.0"]
