@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      REZ_PACKAGES_PATH: /root/packages
-      REZ_LOCAL_PACKAGES_PATH: /root/packages
 
     strategy:
       matrix:
@@ -25,22 +22,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-#      - name: Set up Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: pypy${{ matrix.python-version }}
-
       # Unit Tests
-#      - name: Install unit test dependencies
-#        run: python${{ matrix.python-version }} -m pip install tox tox-gh-actions
-#
-#      - name: Test with tox
-#        run: tox
-      - name: Check container
-        run: ls /root/packages
+      - name: Install unit test dependencies
+        run: python${{ matrix.python-version }} -m pip install tox tox-gh-actions
 
-      - name: Print rez config
-        run: rez config
+      - name: Test with tox
+        run: tox
 
       # Integration tests
       - name: Install integration test dependencies
