@@ -11,7 +11,9 @@ jobs:
 
     strategy:
       matrix:
-        houdini-version: ["19.5", "20.0"]
+        houdini-version:
+          - "19.5"  # Python 3.9
+          - "20.0"  # Python 3.10
 
     container:
       image: captainhammy/hython-runner:${{ matrix.houdini-version }}
