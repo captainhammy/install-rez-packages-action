@@ -1,6 +1,7 @@
+[![Tests](https://github.com/captainhammy/install-rez-packages-action/actions/workflows/tests.yml/badge.svg)](https://github.com/captainhammy/install-rez-packages-action/actions/workflows/tests.yml)
 # Install Rez Packages
 
-This GitHub Action will install PyPi packages into [rez](https://github.com/AcademySoftwareFoundation/rez) via the `rez-pip` command.
+This GitHub Action will install PyPi packages into [rez](https://github.com/AcademySoftwareFoundation/rez) via the `rez pip` command.
 
 ## Usage
 
