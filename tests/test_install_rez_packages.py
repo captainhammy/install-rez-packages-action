@@ -38,8 +38,8 @@ def test_install_packages(fp):
     """Test install_rez_packages.install_packages()."""
     packages = ["foo", "bar"]
 
-    fp.register(["rez-pip", "--install", "foo"])
-    fp.register(["rez-pip", "--install", "bar"])
+    fp.register(["rez", "pip", "--install", "foo"])
+    fp.register(["rez", "pip", "--install", "bar"])
 
     install_rez_packages.install_packages(packages)
 

@@ -42,7 +42,8 @@ def install_packages(packages: list[str]) -> None:
     """
     for package in packages:
         cmd = [
-            "rez-pip",
+            "rez",
+            "pip",
             "--install",
             package,
         ]
