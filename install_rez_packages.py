@@ -1,5 +1,8 @@
 """This script is used to install pip packages into rez."""
 
+# Future
+from __future__ import annotations
+
 # Standard Library
 import argparse
 import pathlib
