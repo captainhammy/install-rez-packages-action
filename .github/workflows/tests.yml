@@ -13,6 +13,7 @@ jobs:
         houdini-version:
           - "19.5"  # Python 3.9
           - "20.0"  # Python 3.10
+          - "20.5"  # Python 3.11
 
     container:
       image: captainhammy/hython-runner:${{ matrix.houdini-version }}
