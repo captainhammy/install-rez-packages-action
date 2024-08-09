@@ -8,6 +8,10 @@ jobs:
   movetag:
     runs-on: ubuntu-latest
 
+    # We need write permissions in order to update tags.
+    permissions:
+      contents: write
+
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
