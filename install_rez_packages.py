@@ -10,6 +10,7 @@ import subprocess
 import tempfile
 import urllib.error
 import urllib.parse
+from typing import Any
 
 # Third Party
 import tomlkit
@@ -43,7 +44,7 @@ def _clone_repo(target_dir: pathlib.Path, url: str, *, branch: str | None) -> No
         url: The git repository url.
         branch: Optional branch/tag to check out.
     """
-    kwargs = {}
+    kwargs: dict[str, Any] = {}
 
     if branch is not None:
         kwargs["branch"] = branch
