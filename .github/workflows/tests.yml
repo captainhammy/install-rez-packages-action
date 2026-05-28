@@ -47,5 +47,5 @@ jobs:
           projects: "https://github.com/captainhammy/you-can-call-me-houdini.git"
 
       - name: Test resolve
-        run: rez env pytest_sugar pytest_subprocess pytest_asyncio pytest_ruff pytest_home tomlkit markdown-pytest you_can_call_me_houdini-- echo "resolve successful"
+        run: rez env pytest_sugar pytest_subprocess pytest_asyncio pytest_ruff pytest_home tomlkit markdown_pytest you_can_call_me_houdini -- echo "resolve successful"
         shell: bash
