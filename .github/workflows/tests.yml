@@ -24,7 +24,9 @@ jobs:
       # Unit Tests
 
       - name: Install unit test dependencies
-        run: python3 -m pip install --group "github"
+        run: | 
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --group deps --group github
 
       # Run static analysis tox tests
       - name: Test with tox (static)
@@ -41,9 +43,9 @@ jobs:
         with:
           packages: "pytest-sugar,pytest-subprocess"
           files: "tests/data/requirements.txt,tests/data/other.txt"
-          groups: "deps"
-          projects: 'https://github.com/captainhammy/you-can-call-me-houdini.git'
+          groups: "deps,test_install_deps"
+          projects: "https://github.com/captainhammy/you-can-call-me-houdini.git"
 
       - name: Test resolve
-        run: rez env pytest_sugar pytest_subprocess pytest_asyncio pytest_ruff pytest_home tomlkit you_can_call_me_houdini-- echo "resolve successful"
+        run: rez env pytest_sugar pytest_subprocess pytest_asyncio pytest_ruff pytest_home tomlkit markdown-pytest you_can_call_me_houdini-- echo "resolve successful"
         shell: bash

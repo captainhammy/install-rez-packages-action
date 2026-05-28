@@ -9,6 +9,7 @@ name = "install_rez_packages_action"
     mypy = ["mypy[toml]"]
     ruff = ["ruff"]
     test = ["pytest", "pytest-cov", "pytest_datadir", "pytest-houdini", "pytest-mock", "pytest-subprocess"]
+    test_install_deps = ["markdown-pytest"]
 
 [tool.tox]
     env_list = ["run-tests", "ruff-check", "ruff-format-check", "isort-check", "mypy", "docstring-check"]
