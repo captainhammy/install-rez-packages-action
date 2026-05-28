@@ -65,5 +65,4 @@ This is equivalent to running `rez build --install --variant 2`.
 
 ## Dependencies
 
-While this package has no direct dependencies, it must be run in an environment where the `rez` and `git` commands are
-available. 
+This package must be run in an environment where the `rez` and `git` commands are available. 
