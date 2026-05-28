@@ -2,11 +2,12 @@
 name = "install_rez_packages_action"
 
 dependencies = [
+    "gitpython",
     "tomlkit"
 ]
 
 [dependency-groups]
-    deps = ["tomlkit"]
+    deps = ["gitpython", "tomlkit"]
     docstrings = ["pydocstringformatter"]
     github = ["coverage", "tox"]
     isort = ["isort"]

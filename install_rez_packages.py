@@ -13,6 +13,7 @@ import urllib.parse
 
 # Third Party
 import tomlkit
+from git import Repo
 
 
 def _build_package(package_directory: pathlib.Path, *, variant: str | None) -> None:
@@ -42,18 +43,14 @@ def _clone_repo(target_dir: pathlib.Path, url: str, *, branch: str | None) -> No
         url: The git repository url.
         branch: Optional branch/tag to check out.
     """
-    cmd = [
-        "git",
-        "-C",
-        target_dir.as_posix(),
-        "clone",
-        url,
-    ]
+    kwargs = {}
 
     if branch is not None:
-        cmd.extend(["--branch", branch, "--single-branch", "--depth", "1"])
+        kwargs["branch"] = branch
+        kwargs["single_branch"] = True
+        kwargs["depth"] = 1
 
-    subprocess.call(cmd)
+    Repo.clone_from(url, target_dir, **kwargs)
 
 
 def _get_components_from_url(url: str) -> tuple[str, str | None, str | None]:
@@ -206,10 +203,9 @@ def install_projects(projects: list[str]) -> None:
         url, branch, variant = _get_components_from_url(project)
 
         repo_name = _get_repo_name_from_url(url)
-
-        _clone_repo(target_dir, url, branch=branch)
-
         repo_dir = target_dir / repo_name
+
+        _clone_repo(repo_dir, url, branch=branch)
 
         _build_package(repo_dir, variant=variant)
 

@@ -34,19 +34,25 @@ def test__build_package(mocker, fp, variant):
 
 
 @pytest.mark.parametrize("branch", (None, "foo"))
-def test__clone_repo(mocker, fp, branch):
+def test__clone_repo(mocker, branch):
     """Test install_rez_packages._clone_repo()."""
+    mock_clone = mocker.patch("install_rez_packages.Repo.clone_from")
+
     mock_target = mocker.MagicMock(spec=pathlib.Path)
     mock_url = mocker.MagicMock(spec=str)
 
-    args = ["git", "-C", mock_target.as_posix.return_value, "clone", mock_url]
+    expected_kwargs = {}
 
     if branch is not None:
-        args.extend(["--branch", branch, "--single-branch", "--depth", "1"])
-
-    fp.register(args)
+        expected_kwargs = {
+            "branch": branch,
+            "single_branch": True,
+            "depth": 1,
+        }
 
     install_rez_packages._clone_repo(mock_target, mock_url, branch=branch)
+
+    mock_clone.assert_called_with(mock_url, mock_target, **expected_kwargs)
 
 
 @pytest.mark.parametrize(
@@ -227,7 +233,7 @@ def test_install_projects(mocker):
     mock_temp_dir.assert_called_with(prefix="rez-install-packages-")
     mock_get_components.assert_called_with(project_name)
     mock_get_repo.assert_called_with(url)
-    mock_clone_repo.assert_called_with(mock_target, url, branch=branch)
+    mock_clone_repo.assert_called_with(mock_target / repo_name, url, branch=branch)
 
     mock_build.assert_called_with(mock_target / repo_name, variant=variant)
 
