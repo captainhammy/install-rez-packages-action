@@ -1,7 +1,61 @@
+[project]
+name = "install_rez_packages_action"
 
-[tool.pytest.ini_options]
-    pythonpath = "."
-    addopts = "--cov --cov-report=html --cov-report=xml --cov-fail-under=100 --color=yes"
+[dependency-groups]
+    deps = ["tomlkit"]
+    docstrings = ["pydocstringformatter"]
+    github = ["coverage", "tox"]
+    isort = ["isort"]
+    mypy = ["mypy[toml]"]
+    ruff = ["ruff"]
+    test = ["pytest", "pytest-cov", "pytest_datadir", "pytest-houdini", "pytest-mock", "pytest-subprocess"]
+
+[tool.tox]
+    env_list = ["run-tests", "ruff-check", "ruff-format-check", "isort-check", "mypy", "docstring-check"]
+    labels = {test = ["run-tests"], static = ["ruff-check", "ruff-format-check", "isort-check", "mypy", "docstring-check"], fix = ["ruff-format-fix", "isort-run", "docstring-run"] }
+    no_package = true
+
+    [tool.tox.env.run-tests]
+        allowlist_externals = ["echo"]
+        dependency_groups = ["deps", "test"]
+        set_env = {PYTHONPATH = "{toxinidir}:{envsitepackagesdir}"}
+        commands = [["pytest", "tests/"]]
+        commands_post = [["echo", "View test coverage report at file://{toxinidir}/coverage_html_report/index.html"]]
+
+    [tool.tox.env.ruff-check]
+        dependency_groups = ["ruff"]
+        commands = [[ "ruff", "check", "--preview", "install_rez_packages.py", "tests/"]]
+
+    [tool.tox.env.ruff-format-check]
+        dependency_groups = ["ruff"]
+        commands = [[ "ruff", "format", "--preview", "--check", "--diff", "install_rez_packages.py", "tests/"]]
+
+    [tool.tox.env.ruff-format-fix]
+        dependency_groups = ["ruff"]
+        commands = [[ "ruff", "format", "--preview", "install_rez_packages.py", "tests/"]]
+
+    [tool.tox.env.isort-check]
+        dependency_groups = ["isort"]
+        commands = [[ "isort", "--check", "install_rez_packages.py", "tests/"]]
+
+    [tool.tox.env.isort-run]
+        dependency_groups = ["isort"]
+        commands = [[ "isort", "install_rez_packages.py", "tests/"]]
+
+    [tool.tox.env.mypy]
+        dependency_groups = ["deps", "mypy"]
+        commands = [[ "mypy"]]
+
+    [tool.tox.env.docstring-check]
+        dependency_groups = ["docstrings"]
+        commands = [[ "pydocstringformatter", "--exit-code", "install_rez_packages.py"]]
+
+    [tool.tox.env.docstring-run]
+        dependency_groups = ["docstrings"]
+        commands = [[ "pydocstringformatter", "--write", "install_rez_packages.py"]]
+
+[tool.pytest]
+    addopts = ["--cov", "--cov-report=html", "--cov-report=xml", "--cov-fail-under=100", "--color=yes"]
 
 [tool.isort]
     profile = "black"
@@ -19,7 +73,7 @@
     disallow_untyped_calls = true
     disallow_untyped_defs = true
     files = "install_rez_packages.py"
-    ignore_missing_imports = true
+#    ignore_missing_imports = true
 
 
 [tool.coverage]
@@ -39,18 +93,8 @@
         exclude_lines = [
             # Have to re-enable the standard pragma
             "pragma: no cover",
-
-            # Don't complain about missing debug-only code:
             "def __repr__",
-            "if self.debug",
             "if TYPE_CHECKING",
-
-            # Don't complain if tests don't hit defensive assertion code:
-            "raise AssertionError",
-            "raise NotImplementedError",
-
-            # Don't complain if non-runnable code isn't run:
-            "if 0:",
             "if __name__ == .__main__.:",
         ]
         ignore_errors = true
@@ -95,19 +139,21 @@
             "PYI",  # flake8-pyi
         ]
         ignore = [
-            "D104",  # Missing docstring in public module
-            "D105",  # Missing docstring in magic method
             "D107",  # Missing docstring in __init__
-            "PT004",  # Fixtures not returning anything not starting with _
+            "TRY003",  # Long exception messages
         ]
 
     [tool.ruff.lint.per-file-ignores]
         "tests/*.py" = [
-            "PLR0913",  # Too many args for function
-            "PLR0917",  # Too many positional args
+            "FBT003",  # Boolean positional
+            "PLR0913",  # Too many arguments in function definition
+            "PLR0917",  # Too many positional arguments
+            "PLR2004",  # Magic value in comparison
             "PLR6301",  # 'no-self-use' for tests
-            "PT006",  # Wrong type pased as parametrize arg
-            "PT008",  # Use return_value instead of lambda
+            "PT006",  # Expected tuple of parameter names instead of string
+            "PT007",  # Expected `list` instead of `tuple` for parametrized fixtures
+            "PT012",  # pytest.raises() simple statement
+            "TRY003",  # Long exception messages
         ]
 
     [tool.ruff.lint.flake8-pytest-style]
