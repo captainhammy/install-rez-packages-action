@@ -1,6 +1,10 @@
 [project]
 name = "install_rez_packages_action"
 
+dependencies = [
+    "tomlkit"
+]
+
 [dependency-groups]
     deps = ["tomlkit"]
     docstrings = ["pydocstringformatter"]
