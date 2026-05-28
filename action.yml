@@ -30,7 +30,9 @@ runs:
   steps:
     - name: Install Dependencies
       shell: bash
-      run: | 
+      run: |
+          # Need to cd to the action path since the pyproject.toml reading is relative to cwd.  
+          cd ${GITHUB_ACTION_PATH}
           python3 -m pip install --group deps
 
     - name: Install packages
