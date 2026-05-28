@@ -28,6 +28,11 @@ runs:
   using: "composite"
 
   steps:
+    - name: Install Dependencies
+      shell: bash
+      run: | 
+          python3 -m pip install --group deps
+
     - name: Install packages
       if: ${{ inputs.packages }}
       run: python3 ${GITHUB_ACTION_PATH}/install_rez_packages.py --packages ${{ inputs.packages }}
