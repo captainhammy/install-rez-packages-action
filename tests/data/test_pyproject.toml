@@ -1,0 +1,10 @@
+
+[dependency-groups]
+    deps = ["humanfriendly", "python-singleton"]
+    docs = ["sphinx==8", "sphinx-rtd-theme", "sphinx-copybutton", "enum-tools[sphinx]"]
+    docstrings = ["pydocstringformatter"]
+    github = ["coverage", "tox"]
+    isort = ["isort"]
+    mypy = ["mypy"]
+    ruff = ["ruff"]
+    test = ["pytest", "pytest_cov", "pytest_datadir", "pytest_houdini", "pytest_mock"]

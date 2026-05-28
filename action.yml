@@ -5,12 +5,22 @@ branding:
   color: "orange"
 inputs:
   packages:
-    description: "A comma seperated list of PyPI package names to install."
+    description: "A comma separated list of PyPI package names to install."
     default: ""
     required: false
 
   files:
-    description: "A comma seperated list of requirements.txt files to install."
+    description: "A comma separated list of requirements.txt files to install."
+    default: ""
+    required: false
+
+  groups:
+    description: "A comma separated list of pyproject.toml dependency-group names."
+    default: ""
+    required: false
+
+  projects:
+    description: "A comma separated list of git URLs to clone and install from."
     default: ""
     required: false
 
@@ -26,4 +36,14 @@ runs:
     - name: Install files
       if: ${{ inputs.files }}
       run: python3 ${GITHUB_ACTION_PATH}/install_rez_packages.py --files ${{ inputs.files }}
+      shell: bash
+
+    - name: Install dependency groups
+      if: ${{ inputs.groups }}
+      run: python3 ${GITHUB_ACTION_PATH}/install_rez_packages.py --groups ${{ inputs.groups }}
+      shell: bash
+
+    - name: Install projects
+      if: ${{ inputs.projects }}
+      run: python3 ${GITHUB_ACTION_PATH}/install_rez_packages.py --projects ${{ inputs.projects }}
       shell: bash
